@@ -326,6 +326,7 @@ function init() {
   viirs = new Viirs(gl);
   getBin('data/viirs-2016.bin', function(array) {
     viirs.setBuffer(array);    
+    timeSlider.play();
   })
   //setKeys();
 }
