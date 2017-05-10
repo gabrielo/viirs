@@ -5,6 +5,7 @@ var mapMatrix = new Float32Array(16);
 var pixelsToWebGLMatrix = new Float32Array(16);
 var minEpoch = new Date('1971-01-01').getTime();
 var maxEpoch = new Date('2071-01-01').getTime();
+var timeSlider;
 
 var mapOptions = {
   zoom: 2,
@@ -273,7 +274,11 @@ function update() {
 
   var pointSize = countryPointSizePixels * Math.pow(blockPointSizePixels / countryPointSizePixels, (map.zoom - countryLevelZoom) / (blockLevelZoom - countryLevelZoom));
 
+  var maxEpoch = timeSlider.getCurrentTime();
+  var minEpoch = timeSlider.getCurrentTime() - timeSlider.span_;
   viirs.draw(mapMatrix, {pointSize: pointSize, minEpoch: minEpoch/1000.0, maxEpoch: maxEpoch/1000.0});
+  timeSlider.animate();
+
 }
 
 function resize() {
@@ -287,12 +292,33 @@ function resize() {
     -1,   1,   0, 1]);
 }
 
+function initTimeSlider() {
+  var timeSlider = new TimeSlider({
+    startTime: new Date("2015-12-06").getTime(),
+    endTime: new Date("2016-12-31").getTime(),
+    dwellAnimationTime: 0 * 1000,
+    increment: 24*60*60*1000,
+    span: 21*60*60*30*1000,
+    formatCurrentTime: function(date) {
+      return date.yyyymmdd();
+    },
+    animationRate: {
+      fast: 20,
+      medium: 40,
+      slow: 80
+    }
+  });  
+  return timeSlider;
+}
+
 function init() {
   var mapDiv = document.getElementById('map-div');
   map = new google.maps.Map(mapDiv, mapOptions);
 
   canvasLayerOptions.map = map;
   canvasLayer = new CanvasLayer(canvasLayerOptions);
+
+  timeSlider = initTimeSlider();
 
   // initialize WebGL
   gl = canvasLayer.canvas.getContext('experimental-webgl');
@@ -394,6 +420,18 @@ function translateMatrix(matrix, tx, ty) {
   matrix[14] += matrix[2]*tx + matrix[6]*ty;
   matrix[15] += matrix[3]*tx + matrix[7]*ty;
 }
+
+Date.prototype.yyyymmdd = function(stepsize) {
+  if (stepsize == undefined) stepsize = -1;
+  
+  var yyyy = this.getUTCFullYear().toString();                                    
+  var mm = (this.getUTCMonth()+1).toString();
+  var dd  = this.getUTCDate().toString();             
+  var res = yyyy;
+  if (stepsize < 365*24*60*60) res += '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+  return res;
+};  
+
 document.addEventListener('DOMContentLoaded', init, false);
 window.addEventListener('resize', function () {  google.maps.event.trigger(map, 'resize') }, false);
 
