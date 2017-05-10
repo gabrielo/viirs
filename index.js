@@ -277,7 +277,6 @@ function update() {
 }
 
 function resize() {
-  console.log('resize');
   var w = gl.canvas.width;
   var h = gl.canvas.height;
   gl.viewport(0, 0, w, h);
@@ -302,13 +301,12 @@ function init() {
   getBin('data/viirs-2016.bin', function(array) {
     viirs.setBuffer(array);    
   })
-  setKeys();
+  //setKeys();
 }
 
 function setKeys() {
   window.onkeydown = function (e) {
     var code = e.keyCode ? e.keyCode : e.which;
-    console.log(code);
     if (code == 32) {
       minEpoch = new Date('1971-01-01').getTime();
       maxEpoch = new Date('2071-01-01').getTime();
