@@ -341,7 +341,6 @@ function getBin(url, callback) {
     xhr.send();
 }
 
-
 function scaleMatrix(matrix, scaleX, scaleY) {
   matrix[0] *= scaleX;
   matrix[1] *= scaleX;
@@ -368,6 +367,16 @@ Date.prototype.yyyymmdd = function(stepsize) {
   var dd  = this.getUTCDate().toString();             
   var res = yyyy;
   if (stepsize < 365*24*60*60) res += '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+  return res;
+};  
+
+Date.prototype.yyyy_mm = function(stepsize) {
+  if (stepsize == undefined) stepsize = -1;
+  
+  var yyyy = this.getUTCFullYear().toString();                                    
+  var mm = (this.getUTCMonth()+1).toString();
+  var res = yyyy;
+  if (stepsize < 365*24*60*60) res += '_' + (mm[1]?mm:"0"+mm[0]);
   return res;
 };  
 
