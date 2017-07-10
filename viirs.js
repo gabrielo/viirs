@@ -116,41 +116,41 @@ var Viirs = function Viirs(gl) {
     this.numAttributes = 3; 
     this.buffer = {
             'count': 0,
-            'buffer': null            
+            'buffer': null,
+            'ready': false            
     }
-    this.ready = false;
 }
 
 Viirs.prototype.setBuffer = function setBuffer(data) {
     this.buffer.count = data.length / this.numAttributes;
     this.buffer.buffer = createBuffer(gl, data);   
-    this.ready = true;
+    this.buffer.ready = true;
 }
 
 Viirs.prototype.draw = function draw(transform, options) {
-    if (this.ready) {
-    var options = options || {};
-    var pointSize = options.pointSize || 10.;
-    var minEpoch = options.minEpoch || new Date('1971-01-01').getTime()/1000.;
-    var maxEpoch = options.maxEpoch || new Date('2020-01-01').getTime()/1000.;
-    var gl = this.gl;
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.enable(gl.BLEND);
-    gl.blendFunc( gl.SRC_ALPHA, gl.ONE );
-    var program = this.program;
-    var buffer = this.buffer;
-    gl.useProgram(program.program);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer.buffer);
-    bindAttribute(gl, program.program, 'a_coord', 2, gl.FLOAT, false, 12, 0);    
-    bindAttribute(gl, program.program, 'a_epoch', 1, gl.FLOAT, false, 12, 8);    
-    gl.uniformMatrix4fv(program.u_map_matrix, false, transform);
-    gl.uniform1f(program.u_point_size, pointSize);
-    gl.uniform1f(program.u_min_epoch, minEpoch);
-    gl.uniform1f(program.u_max_epoch, maxEpoch);
+    if (this.buffer.ready) {
+        var options = options || {};
+        var pointSize = options.pointSize || 10.;
+        var minEpoch = options.minEpoch || new Date('1971-01-01').getTime()/1000.;
+        var maxEpoch = options.maxEpoch || new Date('2020-01-01').getTime()/1000.;
+        var gl = this.gl;
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND);
+        gl.blendFunc( gl.SRC_ALPHA, gl.ONE );
+        var program = this.program;
+        var buffer = this.buffer;
+        gl.useProgram(program.program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer.buffer);
+        bindAttribute(gl, program.program, 'a_coord', 2, gl.FLOAT, false, 12, 0);    
+        bindAttribute(gl, program.program, 'a_epoch', 1, gl.FLOAT, false, 12, 8);    
+        gl.uniformMatrix4fv(program.u_map_matrix, false, transform);
+        gl.uniform1f(program.u_point_size, pointSize);
+        gl.uniform1f(program.u_min_epoch, minEpoch);
+        gl.uniform1f(program.u_max_epoch, maxEpoch);
 
-    gl.drawArrays(gl.POINTS, 0, buffer.count);
-    gl.disable(gl.BLEND);
-}
+        gl.drawArrays(gl.POINTS, 0, buffer.count);
+        gl.disable(gl.BLEND);
+    }
 };
 
 
