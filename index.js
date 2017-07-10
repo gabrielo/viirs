@@ -328,68 +328,6 @@ function init() {
     viirs.setBuffer(array);    
     timeSlider.play();
   })
-  //setKeys();
-}
-
-function setKeys() {
-  window.onkeydown = function (e) {
-    var code = e.keyCode ? e.keyCode : e.which;
-    if (code == 32) {
-      minEpoch = new Date('1971-01-01').getTime();
-      maxEpoch = new Date('2071-01-01').getTime();
-    }
-    else if (code == 81) {
-      minEpoch = new Date('2015-12-31').getTime();
-      maxEpoch = new Date('2016-02-01').getTime();
-    }
-    else if (code == 87) {
-      minEpoch = new Date('2016-01-31').getTime();
-      maxEpoch = new Date('2016-03-01').getTime();
-    }
-    else if (code == 69) {
-      minEpoch = new Date('2016-02-28').getTime();
-      maxEpoch = new Date('2016-04-01').getTime();
-    }
-    else if (code == 82) {
-      minEpoch = new Date('2016-03-31').getTime();
-      maxEpoch = new Date('2016-05-01').getTime();
-    }
-    else if (code == 84) {
-      minEpoch = new Date('2016-04-30').getTime();
-      maxEpoch = new Date('2016-06-01').getTime();
-    }
-    else if (code == 89) {
-      minEpoch = new Date('2016-05-30').getTime();
-      maxEpoch = new Date('2016-07-01').getTime();
-    }
-    else if (code == 85) {
-      minEpoch = new Date('2016-06-30').getTime();
-      maxEpoch = new Date('2016-08-01').getTime();
-    }
-    else if (code == 73) {
-      minEpoch = new Date('2016-07-31').getTime();
-      maxEpoch = new Date('2016-09-01').getTime();
-    }
-    else if (code == 79) {
-      minEpoch = new Date('2016-08-31').getTime();
-      maxEpoch = new Date('2016-10-01').getTime();
-    }
-    else if (code == 80) {
-      minEpoch = new Date('2016-09-30').getTime();
-      maxEpoch = new Date('2016-11-01').getTime();
-    }
-    else if (code == 65) {
-      minEpoch = new Date('2016-10-31').getTime();
-      maxEpoch = new Date('2016-12-01').getTime();
-    }
-    else if (code == 83) {
-      minEpoch = new Date('2016-11-30').getTime();
-      maxEpoch = new Date('2017-01-01').getTime();
-    } else {
-      minEpoch = new Date('1971-01-01').getTime();
-      maxEpoch = new Date('2071-01-01').getTime();
-    }
-  };  
 }
 
 function getBin(url, callback) {
