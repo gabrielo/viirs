@@ -324,21 +324,10 @@ function init() {
   gl = canvasLayer.canvas.getContext('experimental-webgl');
   gl.getExtension("OES_standard_derivatives");
   viirs = new Viirs(gl);
-  getBin('data/viirs-2016.bin', function(array) {
+  viirs.getBin('data/viirs-2016.bin', function(array) {
     viirs.setBuffer(array);    
     timeSlider.play();
   })
-}
-
-function getBin(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'arraybuffer';
-    xhr.open('get', url, true);
-    xhr.onload = function () {
-      var float32Array = new Float32Array(this.response);
-      callback(float32Array);
-    };
-    xhr.send();
 }
 
 function scaleMatrix(matrix, scaleX, scaleY) {

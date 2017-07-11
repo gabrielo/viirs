@@ -121,6 +121,18 @@ var Viirs = function Viirs(gl) {
     }
 }
 
+Viirs.prototype.getBin = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'arraybuffer';
+    xhr.open('get', url, true);
+    xhr.onload = function () {
+      var float32Array = new Float32Array(this.response);
+      callback(float32Array);
+    };
+    xhr.send();
+}
+
+
 Viirs.prototype.setBuffer = function setBuffer(data) {
     this.buffer.count = data.length / this.numAttributes;
     this.buffer.buffer = createBuffer(gl, data);   
