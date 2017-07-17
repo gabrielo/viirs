@@ -274,6 +274,7 @@ function update() {
 
   var pointSize = countryPointSizePixels * Math.pow(blockPointSizePixels / countryPointSizePixels, (map.zoom - countryLevelZoom) / (blockLevelZoom - countryLevelZoom));
 
+console.log(pointSize);
   var maxEpoch = timeSlider.getCurrentTime();
   var minEpoch = timeSlider.getCurrentTime() - timeSlider.span_;
   viirs.draw(mapMatrix, {pointSize: pointSize, minEpoch: minEpoch/1000.0, maxEpoch: maxEpoch/1000.0});
@@ -294,8 +295,8 @@ function resize() {
 
 function initTimeSlider() {
   var timeSlider = new TimeSlider({
-    startTime: new Date("2015-12-06").getTime(),
-    endTime: new Date("2016-12-31").getTime(),
+    startTime: new Date("2012-02-04").getTime(),
+    endTime: new Date("2017-02-28").getTime(),
     dwellAnimationTime: 0 * 1000,
     increment: 24*60*60*1000,
     span: 21*60*60*30*1000,
@@ -324,7 +325,7 @@ function init() {
   gl = canvasLayer.canvas.getContext('experimental-webgl');
   gl.getExtension("OES_standard_derivatives");
   viirs = new Viirs(gl);
-  viirs.getBin('data/viirs-2016.bin', function(array) {
+  viirs.getBin('data/viirs_2012-2017.bin', function(array) {
     viirs.setBuffer(array);    
     timeSlider.play();
   })
