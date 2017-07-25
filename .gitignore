@@ -5,3 +5,4 @@ capture
 data/*
 !data/*.ipynb
 demo/*
+localconfig
